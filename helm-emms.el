@@ -72,7 +72,7 @@
 (defcustom helm-emms-use-track-description-function nil
   "If non-nil, use `emms-track-description-function'.
 If you have defined a custom function for track descriptions, you
-may want to use it in helm-emms as well."
+may want to use it in `helm-emms' as well."
   :group 'helm-emms
   :type 'boolean)
 
@@ -90,9 +90,9 @@ may want to use it in helm-emms as well."
 
 (defcustom helm-emms-directory-files-recursive-fn 'helm-emms-walk-directory
   "The function used to initially parse the user music directory.
-It takes one argument DIR. The default function
-`helm-emms-walk-directory' use lisp to recursively find all directories
-which may be slow on large music directories."
+It takes one argument DIR.  The default function
+`helm-emms-walk-directory' use Lisp to recursively find all
+directories which may be slow on large music directories."
   :group 'helm-emms
   :type '(choice (function :tag "Native" helm-emms-walk-directory)
                  (function :tag "System \"find\" (faster)" helm-emms-walk-directory-with-find)) )
@@ -214,11 +214,11 @@ entries, or use `emms-streams-built-in-list'."
     :group 'helm-emms))
 
 (defun helm-emms-walk-directory (dir)
-  "The default function to recursively find directories in music directory."
+  "The default function to recursively find directories in DIR."
   (helm-walk-directory dir :directories 'only :path 'full))
 
 (defun helm-emms-walk-directory-with-find (dir)
-  "Like `helm-emms-walk-directory' but uses the \"find\" external command.
+  "Like `helm-emms-walk-directory' but use the \"find\" external command in DIR.
 The path to the command is set in `helm-emms-find-program'.
 
 Warning: This won't work with directories containing a line break."
@@ -261,7 +261,8 @@ If a prefix arg is provided clear previous playlist."
 (defun helm-emms-directory-files (directory &optional full nosort)
   "List files in DIRECTORY retaining only music files.
 
-Returns nil when no music files are found."
+Returns nil when no music files are found.  Interpret FULL and
+NOSORT as in `directory-files'."
   (directory-files
    directory full
    (format ".*%s" (apply #'emms-player-simple-regexp
