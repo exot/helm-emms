@@ -336,7 +336,7 @@ Returns nil when no music files are found."
                            for info      = (if helm-emms-use-track-description-function
                                                (funcall emms-track-description-function v)
                                              (concat artist " - " genre " - " tracknum ": " song))
-                           unless (string-match "^\\(http\\|mms\\):" name)
+                           unless (and (stringp name) (string-match "^\\(http\\|mms\\):" name))
                            collect (cons info name)))
     :filtered-candidate-transformer 'helm-emms-files-modifier
     :candidate-number-limit 9999
