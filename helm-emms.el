@@ -225,6 +225,7 @@ Warning: This won't work with directories containing a line break."
   (process-lines helm-emms-find-program dir "-mindepth" "1" "-type" "d"))
 
 (defun helm-emms--clear-playlist-directories ()
+  "Clear local cache of directory files to play."
   (setq helm-emms--directories-added-to-playlist nil))
 
 (defun helm-emms-dired-persistent-action (directory)
@@ -270,6 +271,10 @@ NOSORT as in `directory-files'."
    nosort))
 
 (defun helm-emms-dired-transformer (candidates _source)
+  "Transform directory entries in CANDIDATES for display in a helm source.
+Add cover images if either found in the directory or provided by
+EMMS defaults.  Also propertize directories with covers that are
+currently played with the `helm-emms-playlist' face."
   (cl-loop with files
            for d in candidates
            for cover = (pcase (emms-browser-get-cover-from-path d 'small)
@@ -290,6 +295,10 @@ NOSORT as in `directory-files'."
 (defvar helm-emms-current-playlist nil)
 
 (defun helm-emms-files-modifier (candidates _source)
+  "Transform music files in CANDIDATES for display in a helm source.
+Sort files of the current playlist first, and propertize them
+with the `helm-emms-playlist' face by default, and the currently
+playing file with `emms-browser-track-face'."
   (cl-loop for i in candidates
            for curtrack = (emms-playlist-current-selected-track)
            for playing = (or (and helm-emms-use-track-description-function
@@ -383,6 +392,7 @@ NOSORT as in `directory-files'."
       (helm-emms-delete-blank-lines))))
 
 (defun helm-emms-delete-blank-lines ()
+  "Delete all balnk lines in the current buffer."
   (save-excursion
     (goto-char (point-min))
     (while (and (re-search-forward "^$" nil t) (not (eobp)))
@@ -417,6 +427,7 @@ NOSORT as in `directory-files'."
     (helm-force-update nil recenter)))
 
 (defun helm-emms-playlist-empty-p ()
+  "Check whether the current EMMS playlist is empty."
   (with-current-emms-playlist
     (null (emms-playlist-track-at (point)))))
 
