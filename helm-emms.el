@@ -207,7 +207,7 @@ entries, or use `emms-streams-built-in-list'."
        . (lambda (directory)
            (let ((mkds (helm-marked-candidates)))
              (cl-loop for dir in mkds
-                      do (helm-emms-add-directory-to-playlist dir))))) 
+                      do (helm-emms-add-directory-to-playlist dir)))))
       ("Open dired in file's directory" . (lambda (directory)
                                             (helm-open-dired directory))))
     :filtered-candidate-transformer '(helm-emms-dired-transformer helm-adaptive-sort)
